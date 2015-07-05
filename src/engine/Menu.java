@@ -1,5 +1,6 @@
 package engine;
 
+import crud.DBReaderWriter;
 import crud.JSONReaderWriter;
 
 import java.util.ArrayList;
@@ -127,24 +128,27 @@ public class Menu {
     }
 
     public static void main(String[] args) {
-        //initializing Object Mapper wrapper
-        JSONReaderWriter jsonReaderWriter = new JSONReaderWriter();
-        Menu MealMenu = new Menu("Main menu");
-        Menus allMenus = new Menus();
-        allMenus.addMenu(MealMenu);
-        Categories allCategories = new Categories();
-        allCategories.initCategories();
-        Products allProducts = new Products();
-        allProducts.initProducts();
-        Meals allMeals = new Meals();
-        MealMenu.initAllMeals(allProducts, allCategories, allMeals);
-        ComplexMeals complexMeals = new ComplexMeals();
-        MealMenu.getComplexMealsForPrice(53.53, allCategories.getCategoryByName("first"),
-                allCategories.getCategoryByName("second"),
-                allCategories.getCategoryByName("third"),
-                complexMeals);
-        jsonReaderWriter.WriteAllToFile(allProducts, allCategories, allMeals, complexMeals, allMenus);
-        jsonReaderWriter.ReadAllFromFile(allProducts, allCategories, allMeals, complexMeals, allMenus);
+        //working with JSON
+//        JSONReaderWriter jsonReaderWriter = new JSONReaderWriter();
+//        Menu MealMenu = new Menu("Main menu");
+//        Menus allMenus = new Menus();
+//        allMenus.addMenu(MealMenu);
+//        Categories allCategories = new Categories();
+//        allCategories.initCategories();
+//        Products allProducts = new Products();
+//        allProducts.initProducts();
+//        Meals allMeals = new Meals();
+//        MealMenu.initAllMeals(allProducts, allCategories, allMeals);
+//        ComplexMeals complexMeals = new ComplexMeals();
+//        MealMenu.getComplexMealsForPrice(53.53, allCategories.getCategoryByName("first"),
+//                allCategories.getCategoryByName("second"),
+//                allCategories.getCategoryByName("third"),
+//                complexMeals);
+//        jsonReaderWriter.WriteAllToFile(allProducts, allCategories, allMeals, complexMeals, allMenus);
+//        jsonReaderWriter.ReadAllFromFile(allProducts, allCategories, allMeals, complexMeals, allMenus);
+        //working with database
+        DBReaderWriter dbReaderWriter = new DBReaderWriter();
+        dbReaderWriter.CreateNeededTables();
     }
 
     public Menu() {
