@@ -10,6 +10,9 @@ public class Menu {
 
     private String name;
     private ArrayList<Meal> mealList = new ArrayList<Meal>();
+    private static DBReaderWriter dbReaderWriter = new DBReaderWriter();
+    // private static JSONReaderWriter jsonReaderWriter = new JSONReaderWriter();
+
 
     public void addMeal(Meal meal) {
         mealList.add(meal);
@@ -89,47 +92,8 @@ public class Menu {
         return complexMeals.getComplexMealList();
     }
 
-    public void initAllMeals(Products allProducts, Categories categories, Meals MealMenu) {
-        Meal roastPotatoes = new Meal("Roast potatoe", categories.getCategoryByName("Second"),
-                new ArrayList<Ingredient>(Arrays.asList(
-                        new Ingredient(500, allProducts.getProductByName("potato")),
-                        new Ingredient(100, allProducts.getProductByName("oil")),
-                        new Ingredient(50, allProducts.getProductByName("sauce"))
-                )));
-
-        Meal soup = new Meal("Soup", categories.getCategoryByName("First"),
-                new ArrayList<Ingredient>(Arrays.asList(
-                        new Ingredient(1, allProducts.getProductByName("water")),
-                        new Ingredient(300, allProducts.getProductByName("carrot")),
-                        new Ingredient(100, allProducts.getProductByName("bread"))
-                )));
-        Meal soup_2 = new Meal("Soup With Tea", categories.getCategoryByName("First"),
-                new ArrayList<Ingredient>(Arrays.asList(
-                        new Ingredient(1, allProducts.getProductByName("water")),
-                        new Ingredient(300, allProducts.getProductByName("carrot")),
-                        new Ingredient(100, allProducts.getProductByName("bread")),
-                        new Ingredient(30, allProducts.getProductByName("greenTea"))
-                )));
-        Meal green_tea_meal = new Meal("Green Tea", categories.getCategoryByName("Third"),
-                new ArrayList<Ingredient>(Arrays.asList(
-                        new Ingredient(500, allProducts.getProductByName("water")),
-                        new Ingredient(30, allProducts.getProductByName("greenTea"))
-                )));
-        Meal black_tea_meal = new Meal("Black Tea", categories.getCategoryByName("Third"),
-                new ArrayList<Ingredient>(Arrays.asList(
-                        new Ingredient(500, allProducts.getProductByName("water")),
-                        new Ingredient(30, allProducts.getProductByName("greenTea"))
-                )));
-        MealMenu.addMeal(roastPotatoes);
-        MealMenu.addMeal(soup);
-        MealMenu.addMeal(soup_2);
-        MealMenu.addMeal(green_tea_meal);
-        MealMenu.addMeal(black_tea_meal);
-    }
-
-    public static void main(String[] args) {
+   public static void main(String[] args) {
         //working with JSON
-//        JSONReaderWriter jsonReaderWriter = new JSONReaderWriter();
 //        Menu MealMenu = new Menu("Main menu");
 //        Menus allMenus = new Menus();
 //        allMenus.addMenu(MealMenu);
@@ -146,9 +110,23 @@ public class Menu {
 //                complexMeals);
 //        jsonReaderWriter.WriteAllToFile(allProducts, allCategories, allMeals, complexMeals, allMenus);
 //        jsonReaderWriter.ReadAllFromFile(allProducts, allCategories, allMeals, complexMeals, allMenus);
+
         //working with database
-        DBReaderWriter dbReaderWriter = new DBReaderWriter();
-        dbReaderWriter.CreateNeededTables();
+        Categories allCategories = new Categories();
+        allCategories.initCategories();
+        Menu MealMenu = new Menu("Main menu");
+        Menus allMenus = new Menus();
+        allMenus.addMenu(MealMenu);
+        Meals allMeals = new Meals();
+
+        dbReaderWriter.CreateAllTables();
+        Products allProducts = new Products();
+        dbReaderWriter.initProducts(allProducts);
+        allProducts.getAllProducts().clear();
+        DBReaderWriter.readAllProductsFromDB(allProducts);
+//        DBReaderWriter.deleteProduct("carrot");
+       DBReaderWriter.initMeals(allMeals,allProducts,allCategories);
+
     }
 
     public Menu() {

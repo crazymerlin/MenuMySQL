@@ -8,6 +8,7 @@ import java.util.ArrayList;
  */
 public class Meal {
 
+    private int id;
     private String name;
     private Category categoryOfMeal;
     private double price;
@@ -114,4 +115,11 @@ public class Meal {
         return "engine.Category: " + this.getCategory().toString() + " " + ", Name: " + this.name + " " + ", Price = " + this.price + "UAH";
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

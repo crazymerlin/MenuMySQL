@@ -8,6 +8,7 @@ import validators.PriceValidator;
  */
 public class Product {
 
+    private int id;
     private String name;
     private double priceForUnit;
     private int unit;
@@ -39,6 +40,7 @@ public class Product {
         }
         this.unit = unit;
         this.available = available;
+
     }
 
     /**
@@ -99,5 +101,13 @@ public class Product {
 
     public String toString() {
         return "[" + this.getName() + " " + this.getpriceForUnit() + " " + this.getUnit() + " " + this.isAvailable() + "]";
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
